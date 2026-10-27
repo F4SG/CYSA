@@ -1,0 +1,6 @@
+ultralytics==8.4.63
+opencv-python==4.11.0.86
+lap==0.5.12
+PyYAML==6.0.2
+paho-mqtt==2.1.0
+pydantic==2.11.4

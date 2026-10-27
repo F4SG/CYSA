@@ -1,0 +1,16 @@
+# EJEMPLO SINTÉTICO: las líneas no representan ninguna intersección real.
+configuracion_verificada: false
+interseccion: DEMO_INT_01
+source: 0
+model: yolo26n.pt
+device: cpu
+prueba: true
+intervalo_s: 30
+confidence: 0.3
+class_map: {2: auto, 5: micro, 3: moto}
+lanes:
+  - acceso: N
+    carril: N_0
+    a: [0.1, 0.6]
+    b: [0.4, 0.6]
+    direction: negative_to_positive

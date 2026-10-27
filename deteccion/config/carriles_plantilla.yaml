@@ -1,0 +1,15 @@
+# Completar con datos del piloto. No es una configuración calibrada.
+configuracion_verificada: false
+interseccion: null
+source: 0  # Webcam provisional de Cristhian; sustituir por URL IP o ruta externa autorizada.
+model: yolo26n.pt
+# CPU solo para comprobar arranque; confirmar GPU y establecer device: 0 para la calibración.
+device: cpu
+prueba: true
+intervalo_s: 30
+confidence: 0.3
+class_map:
+  2: auto
+  5: micro  # COCO bus como aproximación; NO identifica específicamente todo micro local.
+  3: moto
+lanes: []  # [{acceso: N, carril: N_0, a: [0.1, 0.6], b: [0.4, 0.6], direction: negative_to_positive}]
