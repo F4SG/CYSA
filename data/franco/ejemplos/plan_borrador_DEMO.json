@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "plan_id": "DEMO_FIJO",
+  "interseccion": "DEMO_INT_01",
+  "fases": [
+    {
+      "fase_id": "NS",
+      "duracion_s": 30
+    },
+    {
+      "fase_id": "EW",
+      "duracion_s": 30
+    }
+  ],
+  "prueba": true
+}

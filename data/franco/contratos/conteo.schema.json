@@ -1,0 +1,73 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Version",
+      "type": "string"
+    },
+    "mensaje_id": {
+      "format": "uuid",
+      "title": "Mensaje Id",
+      "type": "string"
+    },
+    "interseccion": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Interseccion",
+      "type": "string"
+    },
+    "acceso": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Acceso",
+      "type": "string"
+    },
+    "carril": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Carril",
+      "type": "string"
+    },
+    "clase": {
+      "enum": [
+        "auto",
+        "micro",
+        "moto"
+      ],
+      "title": "Clase",
+      "type": "string"
+    },
+    "cantidad": {
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Cantidad",
+      "type": "integer"
+    },
+    "inicio": {
+      "format": "date-time",
+      "title": "Inicio",
+      "type": "string"
+    },
+    "fin": {
+      "format": "date-time",
+      "title": "Fin",
+      "type": "string"
+    },
+    "prueba": {
+      "title": "Prueba",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "mensaje_id",
+    "interseccion",
+    "acceso",
+    "carril",
+    "clase",
+    "cantidad",
+    "inicio",
+    "fin",
+    "prueba"
+  ],
+  "title": "Conteo",
+  "type": "object"
+}

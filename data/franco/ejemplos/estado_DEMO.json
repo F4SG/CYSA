@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "mensaje_id": "00000000-0000-4000-8000-000000000002",
+  "interseccion": "DEMO_INT_01",
+  "fase_actual": "NS",
+  "plan_activo": "DEMO_FIJO",
+  "estado_controlador": "conectado",
+  "timestamp": "2026-10-26T12:00:30Z",
+  "prueba": true
+}

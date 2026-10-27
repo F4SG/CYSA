@@ -1,0 +1,60 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Version",
+      "type": "string"
+    },
+    "mensaje_id": {
+      "format": "uuid",
+      "title": "Mensaje Id",
+      "type": "string"
+    },
+    "interseccion": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Interseccion",
+      "type": "string"
+    },
+    "fase_actual": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Fase Actual",
+      "type": "string"
+    },
+    "plan_activo": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Plan Activo",
+      "type": "string"
+    },
+    "estado_controlador": {
+      "enum": [
+        "conectado",
+        "desconectado",
+        "desconocido"
+      ],
+      "title": "Estado Controlador",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "prueba": {
+      "title": "Prueba",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "mensaje_id",
+    "interseccion",
+    "fase_actual",
+    "plan_activo",
+    "estado_controlador",
+    "timestamp",
+    "prueba"
+  ],
+  "title": "Estado",
+  "type": "object"
+}

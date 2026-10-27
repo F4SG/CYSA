@@ -1,0 +1,21 @@
+{
+  "prueba": true,
+  "geometria": "SINTETICA",
+  "semilla": 42,
+  "esperados": 13,
+  "completados": 13,
+  "incompletos": 0,
+  "criterio": "timeLoss promedio por acceso, sin incluir departDelay",
+  "version_sumo": "Eclipse SUMO sumo 1.27.0",
+  "fuente_conteos": "data/leonardo/ejemplos/flujos_DEMO.csv",
+  "comando": [
+    "python",
+    "simulacion/sumo_base.py",
+    "--demo",
+    "--counts",
+    "data/leonardo/ejemplos/flujos_DEMO.csv",
+    "--out",
+    "resultados/sumo_demo"
+  ],
+  "validacion_piloto_real": false
+}

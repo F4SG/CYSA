@@ -1,0 +1,5 @@
+activo_id,interseccion,acceso,tipo,ubicacion,protocolo,prueba
+DEMO_INT_01,DEMO_INT_01,,interseccion,UBICACION_SINTETICA,no_aplica,true
+DEMO_ACCESO_N,DEMO_INT_01,N,acceso,UBICACION_SINTETICA,no_aplica,true
+DEMO_CAM_01,DEMO_INT_01,N,camara,WEBCAM_DE_PRUEBA,USB,true
+DEMO_CTL_01,DEMO_INT_01,,controlador,CONTROLADOR_FICTICIO,MQTT_TLS,true

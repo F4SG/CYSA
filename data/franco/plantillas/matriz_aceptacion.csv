@@ -1,0 +1,13 @@
+requisito,responsable_original,prerrequisitos,pasos_comandos,resultado_esperado,evidencia,estado_entrega,fecha_ejecucion_pc_franco,resultado_observado,referencia_evidencia
+P01 Contratos,Franco,Venv instalada,C0 y probar.py; casos de contrato,"Rechaza campos, tipos y tópico inválidos",Salida de suite,Sintético; vivo pendiente,,,
+P02 MQTT TLS,Franco,Compose y CA locales,Iteración 2 verificar_tls.py,Plano rechazado y TLS con PUBACK,Salida TLS y captura de red sin payload sensible,Pendiente en vivo,,,
+P03 Persistencia,Franco,Login admin y broker/BD activos,Iteración 6 aceptacion_local.py,Mismo UUID enviado dos veces produce una fila,resultado.json y revisión SQL,Lógica sintética; BD pendiente,,,
+P04 Inventario,Cristhian,CSV identificado y rol admin,Iteración 3 carga; iteración 6 edición,Carga/consulta/edición; cobertura real 100 % por medir,CSV y resultado.json; listado real,Sintético; piloto pendiente,,,
+P05 Login y roles,Leonardo y Franco,"Realm, cysa-cli y dos usuarios",Sección login; solo-roles para ambos,Sin token 401; operador escritura 403; admin autorizado,JSON de roles; pantalla sin secretos,JWT sintético; login pendiente,,,
+P06 Estados,Franco y Leonardo,Broker/API y reloj correctos,Iteración 6 ensayo de 65 segundos,Tres actualizaciones y gap/edad <=30 s,muestras_estados.json y panel PRUEBA,Lógica sintética; vivo pendiente,,,
+P07 Conteo real,Cristhian,"Tráfico, líneas y control manual",Recorrido cámara y calibrar.py,Error <=10 % por muestra; todas las clases medidas,Tabla y registro de fuente; sin video,Pendiente real,,,
+P08 Privacidad,Cristhian y Franco,Carpetas reales de captura y BD,Iteración 7 scanner e inspeccionar_bd.py,Sin imágenes/video/placas; solo agregados,JSON scanner/SQL y revisión MQTT/logs,Revisión estática; vivo pendiente,,,
+P09 Panel,Leonardo,Datos y login activos,Iteraciones 3 y 6; revisión manual,Tres vistas; PRUEBA visible; búsqueda <1 min,prueba_panel.csv y captura de tablas,Pendiente visual y piloto,,,
+P10 SUMO fijo,Leonardo,SUMO 1.27 y demanda/red identificadas,Iteración 4 sumo_base.py; ruta real si existe,DEMO 13 completos; timeLoss por acceso,"tripinfo, demora_base y ejecucion",DEMO ejecutado; real pendiente,,,
+P11 Sin activación,Los tres,API y panel de esta release,aceptacion_local.py POST /api/planes,"404, salud false y sin controles de planes",resultado.json y revisión de interfaz,Ausencia comprobada en API de prueba,,,
+P12 Reglas,Leonardo y equipo,Borrador y revisión docente,Iteración 8 registrar decisiones reales,Conservar último válido sin respuesta; aprobación registrada,revision_reglas.csv y decisión docente,Pendiente de aprobación,,,

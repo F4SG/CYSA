@@ -1,0 +1,64 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "activo_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Activo Id",
+      "type": "string"
+    },
+    "interseccion": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Interseccion",
+      "type": "string"
+    },
+    "acceso": {
+      "anyOf": [
+        {
+          "pattern": "^[A-Za-z0-9_-]{1,64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Acceso"
+    },
+    "tipo": {
+      "enum": [
+        "interseccion",
+        "acceso",
+        "camara",
+        "controlador"
+      ],
+      "title": "Tipo",
+      "type": "string"
+    },
+    "ubicacion": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Ubicacion",
+      "type": "string"
+    },
+    "protocolo": {
+      "maxLength": 80,
+      "minLength": 1,
+      "title": "Protocolo",
+      "type": "string"
+    },
+    "prueba": {
+      "title": "Prueba",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "activo_id",
+    "interseccion",
+    "tipo",
+    "ubicacion",
+    "protocolo",
+    "prueba"
+  ],
+  "title": "Activo",
+  "type": "object"
+}
