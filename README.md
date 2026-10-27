@@ -205,7 +205,150 @@ docker compose --env-file infra/.env -f infra/compose.yaml restart api
 
 ---
 
-## F. Linea de tiempo del Sprint 1
+## F. Flujo de deteccion con Webcam (Guia paso a paso para Cristhian)
+
+Esta seccion documenta el procedimiento paso a paso para que Cristhian (o cualquier integrante del equipo) configure, pruebe y opere la webcam fisica en el flujo de deteccion vehicular YOLO26, publicando aforos agregados en tiempo real hacia el broker MQTT y la base de datos central sin comprometer la privacidad.
+
+### 1. Requisitos previos de hardware y librerias
+
+- **Hardware**: Camara web integrada o externa USB (o en su defecto stream RTSP / DroidCam). Para arranque rapido basta CPU; para rendimiento optimo en tiempo real se recomienda GPU NVIDIA CUDA (`device: 0`).
+- **Entorno virtual activo**:
+  ```powershell
+  Set-Location "$env:USERPROFILE\Documents\CYSA_S1\repo_s1"
+  .venv\Scripts\Activate.ps1
+  pip install -r deteccion/requirements.txt
+  ```
+- **Configurar PYTHONPATH**:
+  ```powershell
+  $env:PYTHONPATH = @("$PWD/shared", "$PWD/deteccion") -join ';'
+  ```
+
+### 2. Comprobar la disponibilidad de la camara
+
+Verificar que OpenCV reconozca la camara antes de lanzar el modelo, garantizando que ningun fotograma se almacene en disco:
+
+```powershell
+# Probar webcam por defecto (indice 0)
+python tools/cristhian/comprobar_camara.py --source 0
+
+# Si se cuenta con camara secundaria o externa USB, probar con indice 1:
+python tools/cristhian/comprobar_camara.py --source 1
+```
+
+*Salida esperada:*
+```text
+Fuente disponible: 640 x 480. Cuadro descartado; no acredita escena de trafico ni precision.
+```
+*(El script captura un unico frame en RAM, valida la resolucion y lo destruye de inmediato).*
+
+### 3. Crear el archivo de calibracion de carriles (YAML)
+
+Copiar la plantilla de configuracion:
+```powershell
+Copy-Item deteccion/config/carriles_plantilla.yaml deteccion/config/carriles_cristhian.yaml
+```
+
+Editar `deteccion/config/carriles_cristhian.yaml` con los datos del escenario:
+
+```yaml
+# OBLIGATORIO: Cambiar a true (si permanece en false, run.py se niega a iniciar)
+configuracion_verificada: true
+
+# Identificador de la interseccion (p. ej. DEMO_INT_01 o la asignada en inventario)
+interseccion: DEMO_INT_01
+
+# Indice de la camara verificado en el paso anterior (0, 1) o URL del stream
+source: 0
+
+# Modelo YOLO (descarga automatica de yolo26n.pt si no existe localmente)
+model: yolo26n.pt
+
+# Dispositivo de procesamiento: 'cpu' para laptop o '0' para GPU NVIDIA
+device: cpu
+
+# Bandera de prueba: true para laboratorio/sprint; false para mediciones reales en campo
+prueba: true
+
+# Intervalo de agregacion en segundos (valor entre 1 y 30)
+intervalo_s: 30
+
+# Umbral de confianza minima para deteccion
+confidence: 0.3
+
+# Mapeo de clases del dataset COCO a tipos vehiculares CYSA
+class_map:
+  2: auto
+  5: micro
+  3: moto
+
+# Lineas virtuales de conteo (coordenadas normalizadas 0.0 a 1.0, origen superior-izq)
+# a: [x, y] inicio del segmento | b: [x, y] fin del segmento
+# direction: 'negative_to_positive', 'positive_to_negative' o 'both'
+lanes:
+  - acceso: N
+    carril: N_0
+    a: [0.1, 0.6]
+    b: [0.8, 0.6]
+    direction: negative_to_positive
+```
+
+> **Regla de orientacion:** La direccion de cruce se evalua mediante el producto vectorial respecto al segmento dirigido de `a` hacia `b`. Si los vehiculos circulan en sentido contrario al conteo, cambiar a `direction: positive_to_negative` o usar `both` si el carril es bidireccional.
+
+### 4. Ejecutar el flujo de deteccion y publicacion en tiempo real
+
+Para que los eventos se transmitan al backend y se visualicen en el panel, el entorno debe tener cargadas las credenciales MQTT TLS. Se puede lanzar comodamente usando `cargar_env.py`:
+
+```powershell
+# Ejecutar cargando automaticamente las credenciales de infra/.env
+python tools/franco/cargar_env.py infra/.env -- python -m cysa_detector.run --config deteccion/config/carriles_cristhian.yaml --salida-conteos resultados/conteos_cristhian.csv
+```
+
+**Comportamiento durante la ejecucion:**
+1. Lee los fotogramas secuencialmente en RAM sin generar archivos temporales de video ni imagenes.
+2. Aplica deteccion YOLO26 y seguimiento persistente con ByteTrack (mantiene identificadores de trayectorias hasta 120 s).
+3. Incrementa el aforo cuando la base inferior del vehiculo cruza el segmento del carril configurado.
+4. Al cumplirse la ventana (ej. cada 30 segundos), emite el evento estructurado `Conteo` con UUID unico.
+5. Publica via MQTT con TLS cifrado al topic `corredor/{interseccion}/{acceso}/conteos` (puerto 8883, QoS 1).
+6. Registra el respaldo incremental en `resultados/conteos_cristhian.csv`.
+7. Si el procesamiento por fotograma es demasiado lento (>30.5 s por intervalo), el sistema se detiene automaticamente para evitar violar los contratos temporales.
+
+Para finalizar la captura con la camara, presionar `Ctrl + C`.
+
+### 5. Verificacion estricta de privacidad (Cero imagenes en disco)
+
+El sistema CYSA prohibe el guardado de fotografias, videos o placas en almacenamiento secundario. Cristhian puede auditar el cumplimiento en cualquier momento ejecutando:
+
+```powershell
+python tools/cristhian/comprobar_privacidad.py
+```
+*Salida esperada:*
+```text
+0 archivos multimedia encontrados en resultados y logs. Cumplimiento verificado.
+```
+
+### 6. Recuperacion y reenvio de eventos pendientes
+
+Si la red o el broker MQTT se desconectaron durante la captura de la camara, los conteos permanecen respaldados en el archivo CSV local. Cristhian puede reenviarlos al restablecerse la conexion sin temor a duplicados (la base de datos descarta duplicados por `mensaje_id`):
+
+```powershell
+python tools/franco/cargar_env.py infra/.env -- python tools/cristhian/reenviar_conteos.py resultados/conteos_cristhian.csv
+```
+
+### 7. Calibracion de precision vehicular (RF-03)
+
+Para evaluar el margen de error entre el conteo por camara y una muestra tomada manualmente:
+
+1. Registrar en un CSV los aforos observados manualmente para las mismas ventanas de tiempo.
+2. Ejecutar la herramienta de evaluacion:
+   ```powershell
+   python tools/cristhian/calibrar.py data/cristhian/calibracion_plantilla.csv resultados/calibracion_evaluada.csv
+   ```
+3. El reporte desglosara el porcentaje de discrepancia por carril y categoria vehicular, validando la meta de tolerancia `<= 10%`.
+
+
+---
+
+## G. Linea de tiempo del Sprint 1
 
 | Fecha | Iteracion | Hito | Estado |
 |---|---|---|---|
@@ -220,7 +363,7 @@ docker compose --env-file infra/.env -f infra/compose.yaml restart api
 
 ---
 
-## G. Matriz de requisitos Sprint 1
+## H. Matriz de requisitos Sprint 1
 
 | N | Requisito | Estado | Implementacion | Como verificar |
 |---|---|---|---|---|
