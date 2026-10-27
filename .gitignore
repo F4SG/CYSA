@@ -1,0 +1,30 @@
+﻿# Secretos y runtime (NUNCA subir al repo)
+infra/.env
+infra/.env.*
+!infra/.env.example
+**/runtime/
+
+# Entornos virtuales Python
+**/.venv/
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+
+# Archivos sensibles y binarios grandes
+*.key
+*.pem
+*.pt
+*.mp4
+*.avi
+*.mov
+*.jpg
+*.jpeg
+*.png
+
+# Resultados locales y respaldos (excluidos del repo)
+resultados/
+respaldos/
+mediciones/
+
+# Archivos de diagnóstico
+gcm-diagnose.log
