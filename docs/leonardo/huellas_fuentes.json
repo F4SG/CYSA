@@ -1,0 +1,14 @@
+{
+  "excel": {
+    "archivo": "Formato_Proyecto_Gestión__Semaforica.xlsx",
+    "sha256": "e8b999681d2a40196a35c7ab73626dff9717ee6e5bcd99559cd91e6c39ce451f"
+  },
+  "texto": {
+    "archivo": "Texto pegado.txt",
+    "sha256": "b2710b0bf7342d9c20d80ba9cadd9b72c5009ebf1a48ea43009a16691c211ff8"
+  },
+  "html": {
+    "archivo": "sprint_1_equipo.html",
+    "sha256": "ac926708a56a005fe6a00db51c64ffeb953557dc3e7b7112e61c3cdd444a6a0e"
+  }
+}
