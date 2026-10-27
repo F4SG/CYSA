@@ -1,0 +1,31 @@
+{
+  "release": "s1-it1a8-v1",
+  "iteraciones": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "suite_automatizada": {
+    "casos": 34,
+    "resultado": "PASS_SINTETICO",
+    "api": "TestClient con repositorio de prueba, no TimescaleDB real"
+  },
+  "sumo": {
+    "version": "1.27.0",
+    "escenario": "DEMO_SINTETICO",
+    "vehiculos_completados": 13
+  },
+  "pendiente": [
+    "Docker/Compose/servicios reales",
+    "login de navegador y panel visual",
+    "webcam/GPU/tráfico/precisión",
+    "inventario/red/plan reales",
+    "aprobación docente"
+  ],
+  "guia": "Word y PDF revisados por renderizado; comandos/rutas contrastados con esta release"
+}

@@ -1,0 +1,13 @@
+{
+  "python": "3.12.14",
+  "fastapi": "0.136.0",
+  "pydantic": "2.11.4",
+  "starlette": "1.10.0",
+  "httpx": "0.28.1",
+  "pytest": "8.3.5",
+  "psycopg": "3.2.9",
+  "PyJWT": "2.10.1",
+  "PyYAML": "6.0.2",
+  "cryptography": "50.0.2",
+  "SUMO": "1.27.0"
+}
