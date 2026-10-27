@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<configuration><input><net-file value="red.net.xml" /><route-files value="flujos.rou.xml" /></input><time><begin value="0" /><end value="930.0" /></time><processing><time-to-teleport value="-1" /></processing><output><tripinfo-output value="tripinfo.xml" /><tripinfo-output.write-unfinished value="true" /></output></configuration>
