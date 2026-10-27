@@ -1,0 +1,6 @@
+{
+  "apiBase": "/api",
+  "issuer": "http://localhost:8080/realms/cysa",
+  "clientId": "cysa-panel",
+  "redirectUri": "http://localhost:8088/"
+}
