@@ -1,0 +1,8 @@
+fastapi==0.136.0
+starlette==1.10.0
+pydantic==2.11.4
+uvicorn==0.34.2
+paho-mqtt==2.1.0
+psycopg[binary]==3.2.9
+PyJWT[crypto]==2.10.1
+cryptography==50.0.2
